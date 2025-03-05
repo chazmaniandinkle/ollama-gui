@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app
+      - ./data:/app/data
+      - ./logs:/app/logs
+    env_file:
+      - .env
+    environment:
+      - DATABASE__TYPE=sqlite
+      - DATABASE__SQLITE__PATH=/app/data/ollama_gui.db
+      - RAG__VECTOR_DB_PATH=/app/data/vector_db
+      - HOST=0.0.0.0
+      - PORT=8000
+    ports:
+      - "8000:8000"
+    networks:
+      - ollama-gui-network
+    depends_on:
+      - ollama
+
+  # Frontend application
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8000/api
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks:
+      - ollama-gui-network
+    depends_on:
+      - backend
+
+  # Ollama service
+  ollama:
+    image: ollama/ollama:latest
+    restart: unless-stopped
+    volumes:
+      - ./ollama-data:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - ollama-gui-network
+
+networks:
+  ollama-gui-network:
+    driver: bridge

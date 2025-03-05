@@ -1,0 +1,33 @@
+ollama-gui/
+├── backend/                 # Python FastAPI backend
+│   ├── app/                 # Application code
+│   │   ├── api/             # API endpoints
+│   │   ├── core/            # Core functionality
+│   │   ├── db/              # Database models and migrations
+│   │   ├── providers/       # LLM provider implementations
+│   │   ├── rag/             # RAG engine implementation
+│   │   └── utils/           # Utility functions
+│   ├── tests/               # Backend tests
+│   ├── pyproject.toml       # Python dependencies
+│   ├── config/              # Configuration files
+│   └── alembic.ini          # Database migration config
+├── frontend/                # SvelteKit frontend
+│   ├── src/                 # Source code
+│   │   ├── lib/             # Shared components and utilities
+│   │   │   ├── components/  # UI components
+│   │   │   ├── stores/      # Svelte stores for state management
+│   │   │   ├── api/         # API client code
+│   │   │   └── utils/       # Utility functions
+│   │   └── routes/          # SvelteKit routes (pages)
+│   ├── static/              # Static assets
+│   └── package.json         # Node.js dependencies
+├── docs/                    # Project documentation
+├── docker/                  # Docker configuration
+│   ├── backend/             # Backend Docker configuration
+│   ├── frontend/            # Frontend Docker configuration
+│   └── nginx/               # Nginx configuration for production
+├── docker-compose.yml       # Docker Compose configuration
+├── .github/                 # GitHub workflows
+├── .env.example             # Example environment variables
+├── README.md                # Project readme
+└── LICENSE                  # Project license

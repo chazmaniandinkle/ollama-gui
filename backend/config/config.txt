@@ -1,0 +1,141 @@
+# Ollama GUI Configuration
+
+# Application settings
+app:
+  # Server configuration
+  host: "127.0.0.1"
+  port: 8000
+  
+  # Logging configuration
+  log_level: "info"
+  log_file: "logs/app.log"
+  log_format: "json"
+  
+  # Data storage
+  data_dir: "data"
+  uploads_dir: "data/uploads"
+  cache_dir: "data/cache"
+  temp_dir: "data/tmp"
+  
+  # Web server configuration
+  cors_allow_origins: ["*"]
+  max_upload_size: 52428800  # 50MB
+  request_timeout: 300  # seconds
+  session_lifetime: 86400  # seconds
+
+# Database configuration
+database:
+  # Database type (sqlite, postgres)
+  type: "sqlite"
+  
+  # SQLite-specific settings
+  sqlite:
+    path: "data/ollama_gui.db"
+  
+  # PostgreSQL-specific settings
+  postgres:
+    host: "localhost"
+    port: 5432
+    user: "ollama_gui"
+    password: "${DB_PASSWORD}"
+    dbname: "ollama_gui"
+    ssl_mode: "disable"
+  
+  # Connection pool settings
+  pool_size: 5
+  max_overflow: 10
+  pool_timeout: 30
+  pool_recycle: 1800
+  
+  # Migrations
+  auto_migrate: true
+
+# Authentication settings
+auth:
+  # Authentication mode
+  enable: true
+  jwt_secret: "${JWT_SECRET}"
+  jwt_algorithm: "HS256"
+  jwt_expiry: "24h"
+  
+  # Password policy
+  password_min_length: 8
+  password_require_special: false
+  
+  # API Key settings
+  api_key_enable: true
+
+# LLM Provider configurations
+providers:
+  # Local Ollama configuration
+  ollama:
+    enabled: true
+    base_urls: ["http://localhost:11434"]
+    timeout: 60  # seconds
+    
+  # OpenAI configuration
+  openai:
+    enabled: false
+    api_keys: ["${OPENAI_API_KEY}"]
+    base_urls: ["https://api.openai.com/v1"]
+    timeout: 60  # seconds
+  
+  # Anthropic configuration
+  anthropic:
+    enabled: false
+    api_key: "${ANTHROPIC_API_KEY}"
+    base_url: "https://api.anthropic.com"
+    timeout: 60  # seconds
+
+# RAG (Retrieval Augmented Generation) settings
+rag:
+  enabled: true
+  
+  # Embedding settings
+  embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+  embedding_engine: "local"  # local, openai, ollama
+  embedding_batch_size: 10
+  
+  # Chunking settings
+  chunk_size: 1000
+  chunk_overlap: 100
+  text_splitter: "recursive"
+  
+  # Vector storage
+  vector_db: "chroma"
+  vector_db_path: "data/vector_db"
+  
+  # Document processing
+  content_extraction_engine: ""
+  
+  # Document limits
+  file_max_count: 5
+  file_max_size: 10485760  # 10MB
+  
+  # Retrieval settings
+  top_k: 3
+  relevance_threshold: 0.0
+  
+  # Web search
+  web_search:
+    enable: false
+    engine: "searxng"
+    result_count: 3
+
+# UI settings
+ui:
+  # Theme settings
+  theme: "system"  # Options: light, dark, system
+  
+  # Message display settings
+  message_display: "comfortable"  # Options: compact, comfortable
+  code_theme: "github-dark"  # Code block syntax highlighting theme
+  
+  # Language
+  default_locale: ""  # Empty for auto-detect
+  
+  # Features
+  features:
+    enable_web_search: true
+    enable_code_interpreter: true
+    enable_image_generation: false
